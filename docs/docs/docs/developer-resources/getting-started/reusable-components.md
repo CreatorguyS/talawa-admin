@@ -150,26 +150,26 @@ There are many reasons for this structure:
 
 ### Screen Placement Rules
 
-  1. Authentication-related screens
-        ```
-        src/screens/Auth/**
-        Examples: Login, ForgotPassword, ResetPassword
-        ```
-  2. Admin-only screens
-        ```
-        src/screens/AdminPortal/**
-        Examples: Users, CommunityProfile, Notification
-        ```
-  3. User-only screens
-        ```
-        src/screens/UserPortal/**
-        Examples: Campaigns, Chat, Donate
-        ```
-  4. Public, unauthenticated screens  
-        ```
-        src/screens/Public/**
-        Examples: Invitation acceptance, PageNotFound, public info pages
-        ```
+1. Authentication-related screens
+   ```
+   src/screens/Auth/**
+   Examples: Login, ForgotPassword, ResetPassword
+   ```
+2. Admin-only screens
+   ```
+   src/screens/AdminPortal/**
+   Examples: Users, CommunityProfile, Notification
+   ```
+3. User-only screens
+   ```
+   src/screens/UserPortal/**
+   Examples: Campaigns, Chat, Donate
+   ```
+4. Public, unauthenticated screens
+   ```
+   src/screens/Public/**
+   Examples: Invitation acceptance, PageNotFound, public info pages
+   ```
 
 ### Naming Conventions
 
@@ -330,6 +330,7 @@ These restrictions are enforced by `no-restricted-syntax` in `eslint.config.js` 
 ##### Where direct search inputs are allowed
 
 Direct search input implementations are only allowed inside the search component wrappers themselves:
+
 - `src/shared-components/SearchBar/SearchBar.tsx`
 - `src/shared-components/SearchFilterBar/SearchFilterBar.tsx`
 - `src/shared-components/DataTable/SearchBar.tsx`
@@ -339,16 +340,19 @@ The ESLint config exempts these specific files from search input restrictions wh
 ##### Available Search Components
 
 **SearchBar**
+
 - Path: `src/shared-components/SearchBar/`
 - Use for: Simple standalone search inputs
 - Features: Basic search input with consistent styling and accessibility
 
 **SearchFilterBar**
+
 - Path: `src/shared-components/SearchFilterBar/`
 - Use for: Search combined with filtering options
 - Features: Integrated search and filter controls
 
 **DataTable SearchBar**
+
 - Path: `src/shared-components/DataTable/SearchBar.tsx`
 - Use for: Table-specific search functionality
 - Features: Search optimized for data table contexts
@@ -372,6 +376,7 @@ it means you are attempting to create a search input outside the allowed wrapper
 ##### Rationale
 
 This restriction ensures:
+
 1. **Consistent UX**: All search inputs behave and appear the same across the application
 2. **Accessibility**: Search components include proper ARIA labels, roles, and keyboard navigation
 3. **Maintainability**: Search behavior changes only need to be made in one place
@@ -438,7 +443,7 @@ Example:
 
 - Path: `src/shared-components/Button/Button.tsx` (barrel at `src/shared-components/Button/index.ts`).
 - Import: `import { Button } from 'shared-components/Button';`.
-- Features: wraps `react-bootstrap/Button`, supports common variants (primary/secondary/success/ danger/warning/info/dark/light/outline-*; aliases `outlined`/`outline` map to `outline-primary`), sizes `sm`/`md`/`lg`/`xl`, full-width layout, loading state (`isLoading`, `loadingText`), optional icons with `iconPosition`, and forwards all other bootstrap button props.
+- Features: wraps `react-bootstrap/Button`, supports common variants (primary/secondary/success/ danger/warning/info/dark/light/outline-\*; aliases `outlined`/`outline` map to `outline-primary`), sizes `sm`/`md`/`lg`/`xl`, full-width layout, loading state (`isLoading`, `loadingText`), optional icons with `iconPosition`, and forwards all other bootstrap button props.
 - Lint: direct imports from `react-bootstrap` or `react-bootstrap/Button` are restricted; use the shared Button wrapper instead (the wrapper folder is exempted to build it).
 
 ## Understanding Components Reuse
@@ -849,7 +854,7 @@ It also ensures that any changes in shared components are propagated safely, wit
 ### Testing Shared Component
 
 1. Each shared component must include a corresponding test file (`Component.spec.tsx`)
-1. Refer to the [testing page of the documentation website](https://docs-admin.talawa.io/docs/developer-resources/testing)
+1. Refer to the [testing page of the documentation website](https://docs-admin.talawa.io/docs/developer-resources/testing/testing)
 
 ### Document Your Code
 
