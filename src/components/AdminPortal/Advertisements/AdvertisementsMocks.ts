@@ -26,7 +26,6 @@
 import { act } from 'react';
 import type { NormalizedCacheObject, DocumentNode } from '@apollo/client';
 import { BACKEND_URL } from 'Constant/constant';
-import useLocalStorage from 'utils/useLocalstorage';
 import {
   ApolloClient,
   InMemoryCache,
@@ -133,8 +132,6 @@ interface IBaseMutationMock<T = unknown> {
   error?: Error;
 }
 
-const { getItem } = useLocalStorage();
-
 export const dateConstants = {
   create: {
     startAtISO: dayjs().endOf('year').hour(18).minute(30).toISOString(),
@@ -177,11 +174,9 @@ const httpLink = new HttpLink({
 });
 
 const authLink = setContext((_, { headers }) => {
-  const token = getItem('token');
   return {
     headers: {
       ...headers,
-      ...(token ? { authorization: `Bearer ${token}` } : {}), // i18n-ignore-line
     },
   };
 });

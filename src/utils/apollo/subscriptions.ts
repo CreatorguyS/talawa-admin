@@ -23,14 +23,10 @@
  *   awaits the client's `dispose()` promise. This ordering avoids double-dispose
  *   races but may allow a dispose and re-init to overlap — callers should be
  *   aware of that possible transient overlap.
- * - Authentication: the `connectionParams` factory reads `window.localStorage`
- *   (via `getItem`) for a `token` value whenever it is invoked. Note that
- *   `graphql-ws` calls the `connectionParams` factory on every (re)connection,
- *   so refreshed tokens in storage and up-to-date language settings will be
- *   picked up automatically when the client reconnects. If the application
- *   uses HTTP-only cookies for auth, subscription auth must be implemented
- *   server-side by cookie/session, or the `connectionParams` logic must be
- *   adjusted accordingly.
+ * - Authentication: with HTTP-only cookies in use, tokens are managed by
+ *   the browser and not stored in localStorage. The `connectionParams`
+ *   provides application metadata such as `Accept-Language`. WebSocket
+ *   authentication relies on server-side cookie/session handling.
  * - Forcing a new client: you generally do not need to call `disposeWsClient()`
  *   after a token refresh because the existing client will reconnect and the
  *   `connectionParams` factory will run again. `disposeWsClient()` is only
@@ -49,8 +45,6 @@ import { getMainDefinition } from '@apollo/client/utilities';
 import { createClient } from 'graphql-ws';
 import i18n from 'utils/i18n';
 import type { Client as GraphQLWsClient } from 'graphql-ws';
-import { getItem, PREFIX } from 'utils/useLocalstorage';
-import { BEARER_PREFIX } from 'Constant/common';
 interface ISubscriptionDeps {
   client: ApolloClient<NormalizedCacheObject>;
   errorLink: ApolloLink;
@@ -95,15 +89,7 @@ export const initializeSubscriptions = (): void => {
   wsClient = createClient({
     url: deps.wsUrl,
     connectionParams: () => {
-      let token: string | null = null;
-      try {
-        token = getItem<string>(PREFIX, 'token');
-      } catch {
-        token = null;
-      }
-
       return {
-        ...(token ? { authorization: BEARER_PREFIX + token } : {}),
         'Accept-Language': i18n.language,
       };
     },

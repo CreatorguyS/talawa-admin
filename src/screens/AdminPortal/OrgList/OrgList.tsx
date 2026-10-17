@@ -14,7 +14,6 @@ import PaginationList from 'shared-components/PaginationList/PaginationList';
 import { useTranslation } from 'react-i18next';
 import { errorHandler } from 'utils/errorHandler';
 import type { InterfaceOrgInfoTypePG } from 'utils/interfaces';
-import { BEARER_PREFIX } from 'Constant/common';
 interface InterfaceCurrentUserType {
   user: {
     id: string;
@@ -164,10 +163,6 @@ function OrgList(): JSX.Element {
   const [createMembership] = useMutation(
     CREATE_ORGANIZATION_MEMBERSHIP_MUTATION_PG,
   );
-  const token = getItem('token');
-  const context = token
-    ? { headers: { authorization: BEARER_PREFIX + token } }
-    : { headers: {} };
   // Fetch current user status (consolidated query with network-only for fresh data)
   const {
     data: userData,
@@ -177,7 +172,6 @@ function OrgList(): JSX.Element {
     error?: Error | undefined;
   } = useQuery(CURRENT_USER, {
     fetchPolicy: 'network-only',
-    context,
   });
 
   // Check for email verification status on component mount and sync with backend

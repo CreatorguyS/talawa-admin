@@ -24,7 +24,6 @@ import createUploadLink from 'apollo-upload-client/createUploadLink.mjs';
 import { Provider } from 'react-redux';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { BEARER_PREFIX } from 'Constant/common';
 import App from './App';
 import { store } from './state/store';
 import { BACKEND_URL, BACKEND_WEBSOCKET_URL } from 'Constant/constant';
@@ -71,13 +70,10 @@ const resolvePendingRequests = (): void => {
 
 const authLink = setContext((_, { headers }) => {
   const lng = i18n.language;
-  const token = getItem('token');
-  const authHeaders = token ? { authorization: BEARER_PREFIX + token } : {};
 
   return {
     headers: {
       ...headers,
-      ...authHeaders,
       'Accept-Language': lng,
     },
   };
